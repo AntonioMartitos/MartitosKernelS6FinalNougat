@@ -1,0 +1,25 @@
+on early-init
+    write /sys/block/sda/queue/read_ahead_kb 2048
+
+on property:sys.boot_completed=1
+
+    # I/O management
+    write /sys/block/sda/queue/rotational 0
+    write /sys/block/sda/queue/iostats 0
+    write /sys/block/sda/queue/add_random 0
+    write /sys/block/sda/queue/rq_affinity 2
+    write /sys/block/sda/queue/read_ahead_kb 1024
+    write /sys/block/sda/bdi/min_ratio 5
+
+    # Misc
+    write /sys/module/workqueue/parameters/power_efficient 1
+    write /sys/module/sync/parameters/fsync_enabled N
+    write /sys/kernel/sched/gentle_fair_sleepers 0
+    write /sys/kernel/sched/arch_power 0
+
+    # Disable Wakelocks
+     write /sys/module/wakeup/parameters/enable_sensorhub_wl 0
+     write /sys/module/wakeup/parameters/enable_ssp_wl 0
+     write /sys/module/wakeup/parameters/enable_bcm4773_wl 0
+     write /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl 0
+     write /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_wl 0
